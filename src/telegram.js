@@ -268,6 +268,13 @@ class TelegramBot extends EventEmitter {
     }
   }
 
+  _fixMessageIds(obj) {
+    const messageIds = obj.message_ids;
+    if (messageIds && typeof messageIds !== 'string') {
+      obj.message_ids = stringify(messageIds);
+    }
+  }
+
   /**
    * Make request against the API
    * @param  {String} _path API endpoint
@@ -288,6 +295,7 @@ class TelegramBot extends EventEmitter {
       this._fixReplyMarkup(options.form);
       this._fixEntitiesField(options.form);
       this._fixReplyParameters(options.form);
+      this._fixMessageIds(options.form);
     }
     if (options.qs) {
       this._fixReplyMarkup(options.qs);
